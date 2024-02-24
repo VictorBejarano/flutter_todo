@@ -103,7 +103,7 @@ class CardToDo extends StatelessWidget {
           'ERROR',
           style:
               TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-        );
+        ); // Sale cuando la tarea no tiene un estado dando error.
     }
   }
 }

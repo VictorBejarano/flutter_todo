@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/ui/models/models.dart';
 import 'package:flutter_todo/ui/pages/auth/widgets/widgets.dart';
-import 'package:flutter_todo/ui/pages/temp/list_todo_page.dart';
+import 'package:flutter_todo/ui/pages/list_todo/list_todo_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

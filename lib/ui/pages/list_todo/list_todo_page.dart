@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/ui/models/models.dart';
-import 'package:flutter_todo/ui/pages/temp/widgets/widgets.dart';
+import 'package:flutter_todo/ui/pages/form/form_page.dart';
+import 'package:flutter_todo/ui/pages/list_todo/widgets/widgets.dart';
+import 'package:flutter_todo/ui/pages/widgets/widgets.dart';
 
 class ListTodoPage extends StatefulWidget {
   const ListTodoPage({super.key});
@@ -16,15 +18,15 @@ class _ListTodoPageState extends State<ListTodoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: Text('Lista de tareas'),
-        scrolledUnderElevation: 2,
-        shadowColor: Theme.of(context).colorScheme.shadow,
+      appBar: const AppBarTodo(
+        title: 'Lista de tareas',
       ),
       body: _selectPage(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, FormPage.route,
+              arguments: <String, dynamic>{'mode': ModeForm.create});
+        },
         child: const Icon(Icons.add),
       ),
     );
@@ -42,7 +44,11 @@ class _ListTodoPageState extends State<ListTodoPage> {
             endDate: DateTime.now(),
             state: TaskState.pending,
             onTap: () {
-              print('object');
+              Navigator.pushNamed(context, FormPage.route,
+                  arguments: <String, dynamic>{
+                    'mode': ModeForm.view,
+                    'id': '123'
+                  });
             },
           );
         },
