@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/ui/models/models.dart';
+import 'package:flutter_todo/ui/pages/temp/widgets/widgets.dart';
 
 class ListTodoPage extends StatefulWidget {
   const ListTodoPage({super.key});
@@ -34,28 +36,14 @@ class _ListTodoPageState extends State<ListTodoPage> {
       child: ListView.builder(
         itemCount: temporalCounter,
         itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 24.0, horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('PEDRO'),
-                        Text('PENDIENTE'),
-                      ],
-                    ),
-                    Text('TAREA'),
-                    Text('00/00/0000')
-                  ],
-                ),
-              ),
-            ),
-            onTap: () {},
+          return CardToDo(
+            employeeName: 'Luis',
+            title: 'Compra de mercado',
+            endDate: DateTime.now(),
+            state: TaskState.pending,
+            onTap: () {
+              print('object');
+            },
           );
         },
       ),
