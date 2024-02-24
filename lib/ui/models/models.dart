@@ -1,0 +1,1 @@
+part 'pattern_validator.dart';
