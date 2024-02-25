@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/core/helpers/helpers.dart';
+import 'package:flutter_todo/data/datasources/user_data_source.dart';
 import 'package:flutter_todo/ui/models/models.dart';
 import 'package:flutter_todo/ui/pages/auth/widgets/widgets.dart';
 import 'package:flutter_todo/ui/pages/list_todo/list_todo_page.dart';
@@ -13,19 +15,21 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  late BuildContext _context;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _userController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return Scaffold(
       body: _containerBox(),
     );
@@ -54,7 +58,7 @@ class _AuthPageState extends State<AuthPage> {
       child: Column(
         children: <Widget>[
           AuthInputForm(
-            controller: _userController,
+            controller: _emailController,
             enabled: true,
             icon: Icons.account_box,
             obscureText: false,
@@ -95,16 +99,27 @@ class _AuthPageState extends State<AuthPage> {
           const SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-              onPressed: () {
-                // if (_formKey.currentState!.validate()) {
-                  print(_userController.text);
-                   Navigator.pushReplacementNamed(context, ListTodoPage.route);
-                // }
-              },
-              child: const Text('INGRESAR')),
+          ElevatedButton(onPressed: _onSubmit, child: const Text('INGRESAR')),
         ],
       ),
     );
+  }
+
+  void _onSubmit() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        if (await UserDataSource.login(
+            _emailController.text, _passwordController.text)) {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(_context, ListTodoPage.route);
+        } else {
+          if (!mounted) return;
+          showSnackBarError(context, 'Usuario Inactivo');
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBarError(_context, e.toString());
+    }
   }
 }
