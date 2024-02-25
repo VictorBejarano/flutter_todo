@@ -10,7 +10,7 @@ class AppBarTodo extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.indigo,
       title: Text(title),
       scrolledUnderElevation: 2,
       shadowColor: Theme.of(context).colorScheme.shadow,
