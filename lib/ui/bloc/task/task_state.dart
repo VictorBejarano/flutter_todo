@@ -14,7 +14,7 @@ final class TaskInitial extends TaskState {
 }
 
 final class GetTaskInProgress extends TaskState {
-  GetTaskInProgress() : super({}, '');
+  const GetTaskInProgress(super.dictionary, super.messageErrorZ);
 }
 
 final class GetTaskSuccess extends TaskState {

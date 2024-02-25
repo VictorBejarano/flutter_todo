@@ -165,25 +165,20 @@ class _AuthPageState extends State<AuthPage> {
   /// Envia los datos del formulario, redirecciona a la lista si es exitoso,
   /// de lo contrario muestra mensaje de error segun sea el caso
   void _onSubmit() async {
-              if (!mounted) return;
+    try {
+      if (_formKey.currentState!.validate()) {
+        if (await UserDataSource.login(
+            _emailController.text, _passwordController.text)) {
+          if (!mounted) return;
           Navigator.pushReplacementNamed(_context, ListTodoPage.route);
-
-
-
-    // try {
-    //   if (_formKey.currentState!.validate()) {
-    //     if (await UserDataSource.login(
-    //         _emailController.text, _passwordController.text)) {
-    //       if (!mounted) return;
-    //       Navigator.pushReplacementNamed(_context, ListTodoPage.route);
-    //     } else {
-    //       if (!mounted) return;
-    //       showSnackBarError(context, 'Usuario Inactivo');
-    //     }
-    //   }
-    // } catch (e) {
-    //   if (!mounted) return;
-    //   showSnackBarError(_context, e.toString());
-    // }
+        } else {
+          if (!mounted) return;
+          showSnackBarError(context, 'Usuario Inactivo');
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBarError(_context, e.toString());
+    }
   }
 }

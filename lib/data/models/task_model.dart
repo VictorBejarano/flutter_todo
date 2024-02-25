@@ -58,4 +58,21 @@ class TaskModel extends Task {
         "observations": observations,
         "state": _convertEnumToString(state),
       };
+
+  TaskModel copyWith({
+    String? id,
+    String? title,
+    String? employeeName,
+    String? endDate,
+    String? observations,
+    TaskStateEnum? state,
+  }) =>
+      TaskModel(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        employeeName: employeeName ?? this.employeeName,
+        endDate: endDate ?? this.endDate,
+        observations: observations ?? this.observations,
+        state: state ?? this.state,
+      );
 }

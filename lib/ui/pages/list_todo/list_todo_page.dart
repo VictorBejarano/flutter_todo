@@ -17,7 +17,6 @@ class ListTodoPage extends StatefulWidget {
 }
 
 class _ListTodoPageState extends State<ListTodoPage> {
-  int temporalCounter = 100;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +81,7 @@ class _ListTodoPageState extends State<ListTodoPage> {
 
   Future<void> _refreshData() async {
     setState(() {
-      temporalCounter = 5;
+      BlocProvider.of<TaskBloc>(context).getTasks();
     });
-    print('Test');
   }
 }

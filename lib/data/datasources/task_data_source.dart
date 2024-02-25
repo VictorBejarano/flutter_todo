@@ -8,7 +8,7 @@ class TaskDataSource {
     Map<String, TaskModel> response = {};
     final String jsonString =
         await rootBundle.loadString('assets/json/task.json');
-    await Future.delayed(const Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 1));
     final jsonResponse = json.decode(jsonString);
     for (var item in (jsonResponse as List<dynamic>)) {
       TaskModel user = TaskModel.fromJson(item);
