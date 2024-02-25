@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter_todo/data/models/models.dart';
 import 'package:flutter_todo/domain/domain.dart';
 
+/// Crea instancia de TaskModel a partir de json
 TaskModel taskModelFromJson(String str) => TaskModel.fromJson(json.decode(str));
 
+/// Modelo de la tarea
 class TaskModel extends Task {
+  /// Crea una instancia de TaskModel
   const TaskModel({
     required super.id,
     required super.title,
@@ -15,6 +18,7 @@ class TaskModel extends Task {
     required super.state,
   });
 
+  /// Convierte el valor texto a enum [TaskStateEnum]
   static TaskStateEnum _convertStringToEnum(String value) {
     switch (value) {
       case 'complete':
@@ -28,6 +32,7 @@ class TaskModel extends Task {
     }
   }
 
+  /// Convierte el valor enum [TaskStateEnum] a valor string
   static String _convertEnumToString(TaskStateEnum value) {
     switch (value) {
       case TaskStateEnum.complete:
@@ -41,6 +46,7 @@ class TaskModel extends Task {
     }
   }
 
+  /// Crea [TaskModel] a partir de json
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         id: json["id"],
         title: json["title"],
@@ -50,6 +56,7 @@ class TaskModel extends Task {
         state: TaskModel._convertStringToEnum(json["state"]),
       );
 
+  /// Crea json a partir de [TaskModel]
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
@@ -59,6 +66,7 @@ class TaskModel extends Task {
         "state": _convertEnumToString(state),
       };
 
+  /// Copia el [TaskModel]
   TaskModel copyWith({
     String? id,
     String? title,
