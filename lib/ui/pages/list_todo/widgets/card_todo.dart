@@ -10,8 +10,8 @@ part of 'widgets.dart';
 class CardToDo extends StatelessWidget {
   final String employeeName;
   final String title;
-  final DateTime endDate;
-  final TaskState state;
+  final String endDate;
+  final TaskStateEnum state;
   final Function() onTap;
 
   /// Constructor del widget CardToDo
@@ -73,7 +73,7 @@ class CardToDo extends StatelessWidget {
           TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade900),
       children: <TextSpan>[
         TextSpan(
-            text: DateFormat('dd/MM/yyyy').format(endDate),
+            text: endDate,
             style: const TextStyle(fontWeight: FontWeight.normal)),
       ],
     ));
@@ -82,17 +82,17 @@ class CardToDo extends StatelessWidget {
   /// Metodo para visualizar el estado de la tarea por colores
   Text _showTextState() {
     switch (state) {
-      case TaskState.pending:
+      case TaskStateEnum.pending:
         return const Text(
           'PENDIENTE',
           style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
         );
-      case TaskState.inProgress:
+      case TaskStateEnum.inProgress:
         return const Text(
           'EN PROGRESO',
           style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
         );
-      case TaskState.complete:
+      case TaskStateEnum.complete:
         return const Text(
           'COMPLETADO',
           style:

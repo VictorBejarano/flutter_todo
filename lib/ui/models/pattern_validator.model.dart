@@ -1,5 +1,3 @@
-part of 'models.dart';
-
 class PatternValidator {
   String pattern;
   String textError;

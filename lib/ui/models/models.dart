@@ -1,3 +1,2 @@
-part 'pattern_validator.model.dart';
-part 'task_state.dart';
-part 'mode_form.dart';
+export './pattern_validator.model.dart';
+export './mode_form.dart';

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_todo/data/models/models.dart';
+import 'package:flutter_todo/ui/bloc/task/task_bloc.dart';
 import 'package:flutter_todo/ui/models/models.dart';
 import 'package:flutter_todo/ui/pages/form/form_page.dart';
 import 'package:flutter_todo/ui/pages/list_todo/widgets/widgets.dart';
@@ -32,25 +35,46 @@ class _ListTodoPageState extends State<ListTodoPage> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TaskBloc>(context).getTasks();
+  }
+
   Widget _selectPage() {
     return RefreshIndicator(
       onRefresh: _refreshData,
-      child: ListView.builder(
-        itemCount: temporalCounter,
-        itemBuilder: (BuildContext context, int index) {
-          return CardToDo(
-            employeeName: 'Luis',
-            title: 'Compra de mercado',
-            endDate: DateTime.now(),
-            state: TaskState.pending,
-            onTap: () {
-              Navigator.pushNamed(context, FormPage.route,
-                  arguments: <String, dynamic>{
-                    'mode': ModeForm.view,
-                    'id': '123'
-                  });
-            },
-          );
+      child: BlocBuilder<TaskBloc, TaskState>(
+        builder: (context, state) {
+          switch (state) {
+            case GetTaskInProgress():
+              return const Text('...Cargando');
+            case GetTaskSuccess():
+              List<TaskModel> list = state.dictionary.values.toList();
+              return ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final task = list[index];
+                  return CardToDo(
+                    employeeName: task.employeeName,
+                    title: task.title,
+                    endDate: task.endDate,
+                    state: task.state,
+                    onTap: () {
+                      Navigator.pushNamed(context, FormPage.route,
+                          arguments: <String, dynamic>{
+                            'mode': ModeForm.view,
+                            'id': task.id
+                          });
+                    },
+                  );
+                },
+              );
+            case GetTaskError():
+              return Text(state.messageError);
+            default:
+              return const Text('Error en cambio de estado');
+          }
         },
       ),
     );

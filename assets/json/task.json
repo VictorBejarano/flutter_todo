@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Realizar documentacion",
+    "employee_name": "Luis Perez",
+    "end_date": "01/03/2024",
+    "observations": "Realizar documentacion implementando Swagger",
+    "state": "pending"
+  },
+  {
+    "id": "2",
+    "title": "Estructurar arquitectura",
+    "employee_name": "Carlos Camargo",
+    "end_date": "25/02/2024",
+    "observations": "Estructurar la arquitectura del proyecto a presentar",
+    "state": "in_progress"
+  },
+  {
+    "id": "3",
+    "title": "Implementar nueva interfaz",
+    "employee_name": "Pedro Ospina",
+    "end_date": "22/02/2024",
+    "observations": "Ajustar la interfaz con los nuevos cambios presentados por UI/UX",
+    "state": "complete"
+  }
+]
