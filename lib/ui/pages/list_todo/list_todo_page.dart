@@ -10,7 +10,7 @@ import 'package:flutter_todo/ui/pages/widgets/widgets.dart';
 class ListTodoPage extends StatefulWidget {
   const ListTodoPage({super.key});
 
-  static const String route = 'temporal';
+  static String route = 'temporal';
 
   @override
   State<ListTodoPage> createState() => _ListTodoPageState();
@@ -47,36 +47,68 @@ class _ListTodoPageState extends State<ListTodoPage> {
         builder: (context, state) {
           switch (state) {
             case GetTaskInProgress():
-              return const Text('...Cargando');
+              return _textMessageContainer(
+                  message: '...Cargando', color: Colors.indigo);
             case GetTaskSuccess():
               List<TaskModel> list = state.dictionary.values.toList();
-              return ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final task = list[index];
-                  return CardToDo(
-                    employeeName: task.employeeName,
-                    title: task.title,
-                    endDate: task.endDate,
-                    state: task.state,
-                    onTap: () {
-                      Navigator.pushNamed(context, FormPage.route,
-                          arguments: <String, dynamic>{
-                            'mode': ModeForm.view,
-                            'id': task.id
-                          });
-                    },
-                  );
-                },
-              );
+              if (list.isNotEmpty) {
+                return ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final task = list[index];
+                    return CardToDo(
+                      employeeName: task.employeeName,
+                      title: task.title,
+                      endDate: task.endDate,
+                      state: task.state,
+                      onTap: () {
+                        Navigator.pushNamed(context, FormPage.route,
+                            arguments: <String, dynamic>{
+                              'mode': ModeForm.view,
+                              'id': task.id
+                            });
+                      },
+                    );
+                  },
+                );
+              }
+              return _textMessageContainer(
+                  message: 'No hay tareas',
+                  color: Colors.indigo,
+                  child: IconButton(
+                      onPressed: _refreshData,
+                      icon: const Icon(
+                        Icons.refresh,
+                        color: Colors.indigo,
+                      )));
             case GetTaskError():
-              return Text(state.messageError);
+              return _textMessageContainer(
+                  message: state.messageError, color: Colors.red);
             default:
               return const Text('Error en cambio de estado');
           }
         },
       ),
     );
+  }
+
+  Widget _textMessageContainer(
+      {required String message, required Color color, Widget? child}) {
+    return SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              message,
+              style: TextStyle(
+                  color: color, fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            (child != null) ? child : const SizedBox.shrink()
+          ],
+        )));
   }
 
   Future<void> _refreshData() async {

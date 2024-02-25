@@ -196,7 +196,7 @@ class _FormPageState extends State<FormPage> {
     }
   }
 
-  TextFormField _createInputObservations() {
+  Widget _createInputObservations() {
     return TextFormField(
       enabled: _mode != ModeForm.view,
       controller: _observationsController,
@@ -204,9 +204,11 @@ class _FormPageState extends State<FormPage> {
       textCapitalization: TextCapitalization.sentences,
       maxLines: null,
       decoration: const InputDecoration(
+        alignLabelWithHint: true,
         labelText: 'Observaciones',
         border: OutlineInputBorder(),
       ),
+      minLines: 8,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'El valor es requerido';
