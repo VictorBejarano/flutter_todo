@@ -168,8 +168,12 @@ class _AuthPageState extends State<AuthPage> {
   void _onSubmit() async {
     try {
       if (_formKey.currentState!.validate()) {
-        if (await UserDataSource.login(
-            _emailController.text, _passwordController.text)) {
+        late bool isLogin;
+        await _showLoadingDialog(() async {
+          isLogin = await UserDataSource.login(
+              _emailController.text, _passwordController.text);
+        });
+        if (isLogin == true) {
           if (!mounted) return;
           Navigator.pushReplacementNamed(_context, ListTodoPage.route);
         } else {
@@ -184,7 +188,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   /// Despliega un modal mientras carga los datos de la autenticacion
-  Future<void> _showLoadingDialog(Future<dynamic> fn) async {
+  Future<void> _showLoadingDialog(Future<dynamic> Function() fn) async {
     showDialog(
       context: context,
       barrierDismissible:
@@ -202,7 +206,7 @@ class _AuthPageState extends State<AuthPage> {
         );
       },
     );
-    await fn;
+    await fn();
     if (!mounted) return;
     Navigator.of(context).pop();
   }
