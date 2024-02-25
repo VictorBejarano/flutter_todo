@@ -33,6 +33,7 @@ class _AuthPageState extends State<AuthPage> {
     super.dispose();
   }
 
+  /// Metodo para construir el widget
   @override
   Widget build(BuildContext context) {
     _context = context;
@@ -165,22 +166,44 @@ class _AuthPageState extends State<AuthPage> {
   /// Envia los datos del formulario, redirecciona a la lista si es exitoso,
   /// de lo contrario muestra mensaje de error segun sea el caso
   void _onSubmit() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        if (await UserDataSource.login(
+            _emailController.text, _passwordController.text)) {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(_context, ListTodoPage.route);
+        } else {
+          if (!mounted) return;
+          showSnackBarError(context, 'Usuario Inactivo');
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBarError(_context, e.toString());
+    }
+  }
+
+  /// Despliega un modal mientras carga los datos de la autenticacion
+  Future<void> _showLoadingDialog(Future<dynamic> fn) async {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Evita que se cierre haciendo clic fuera del modal
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text('Cargando'),
+            ],
+          ),
+        );
+      },
+    );
+    await fn;
     if (!mounted) return;
-    Navigator.pushReplacementNamed(_context, ListTodoPage.route);
-    // try {
-    //   if (_formKey.currentState!.validate()) {
-    //     if (await UserDataSource.login(
-    //         _emailController.text, _passwordController.text)) {
-    //       if (!mounted) return;
-    //       Navigator.pushReplacementNamed(_context, ListTodoPage.route);
-    //     } else {
-    //       if (!mounted) return;
-    //       showSnackBarError(context, 'Usuario Inactivo');
-    //     }
-    //   }
-    // } catch (e) {
-    //   if (!mounted) return;
-    //   showSnackBarError(_context, e.toString());
-    // }
+    Navigator.of(context).pop();
   }
 }

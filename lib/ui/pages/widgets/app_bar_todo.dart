@@ -1,12 +1,19 @@
 part of 'widgets.dart';
 
-class AppBarTodo extends StatelessWidget implements PreferredSizeWidget{
+///  Widget global de la barra de navegacion personalizada.
+///   Parámetros:
+///   * [title] Titulo a mostrar.
+class AppBarTodo extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+
+  /// Constructor del widget AppBarTodo
+  /// [title] es requerido,
   const AppBarTodo({super.key, required this.title});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-  
+
+  /// Metodo para construir el widget
   @override
   Widget build(BuildContext context) {
     return AppBar(

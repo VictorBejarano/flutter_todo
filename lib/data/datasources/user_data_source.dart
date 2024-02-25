@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_todo/data/models/user_model.dart';
 
+/// Fuente de datos de tareas
 class UserDataSource {
+  /// Inicializa session
   static Future<bool> login(String email, String password) async {
     final String jsonString =
         await rootBundle.loadString('assets/json/auth.json');
